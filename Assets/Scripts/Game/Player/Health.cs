@@ -44,5 +44,15 @@ public class Health : NetworkBehaviour
 		currentHealth = newHealth;
 		healthBar.SetHealth(currentHealth, maxHealth);
 
+		if (currentHealth <= 0)
+		{
+			HandleDeath();
+		}
+	}
+
+	void HandleDeath()
+	{
+		if (IsOwner) UIManager.Instance.ToggleDeathPanel();
+		Destroy(gameObject);
 	}
 }
