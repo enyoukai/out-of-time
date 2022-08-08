@@ -7,14 +7,14 @@ using Unity.Netcode;
 public class Health : NetworkBehaviour
 {
 	[SerializeField] private int maxHealth = 100;
-	[SerializeField] private HealthBar healthBar;
+	[SerializeField] private PlayerCanvas playerCanvas;
 	private int currentHealth;
 
 	// Start is called before the first frame update
 	void Start()
 	{
 		currentHealth = maxHealth;
-		healthBar.SetHealth(currentHealth, maxHealth);
+		playerCanvas.SetHealth(currentHealth, maxHealth);
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
@@ -42,7 +42,7 @@ public class Health : NetworkBehaviour
 	void UpdateHealth(int newHealth)
 	{
 		currentHealth = newHealth;
-		healthBar.SetHealth(currentHealth, maxHealth);
+		playerCanvas.SetHealth(currentHealth, maxHealth);
 
 		if (currentHealth <= 0)
 		{

@@ -66,23 +66,16 @@ public class Movement : NetworkBehaviour
 
 	private void FlyingMovement()
 	{
-		float idk = verticalInput ? 1 : -1;
-		float targetSpeed = idk * maxFlyingSpeed;
-		float speedDif = targetSpeed - _rb.velocity.y;
-		float movement = Mathf.Pow(Mathf.Abs(speedDif) * flyingAcceleration, velPower) * Mathf.Sign(speedDif);
-
-		_rb.AddForce(movement * Vector2.up);
-
-		// if (verticalInput) _rb.AddForce(Vector2.up * flyingAcceleration);
-		// else if (_rb.velocity.y > 0)
-		// {
-		// 	_rb.AddForce(Vector2.down * immediateGravity);
-		// }
-		// else
-		// {
-		// 	_rb.AddForce(Vector2.down * gravity);
-		// }
-		// if (_rb.velocity.y > maxFlyingSpeed) _rb.velocity = new Vector2(_rb.velocity.x, maxFlyingSpeed);
-		// else if (_rb.velocity.y < -maxFallingSpeed) _rb.velocity = new Vector2(_rb.velocity.x, -maxFallingSpeed);
+		if (verticalInput) _rb.AddForce(Vector2.up * flyingAcceleration);
+		else if (_rb.velocity.y > 0)
+		{
+			_rb.AddForce(Vector2.down * immediateGravity);
+		}
+		else
+		{
+			_rb.AddForce(Vector2.down * gravity);
+		}
+		if (_rb.velocity.y > maxFlyingSpeed) _rb.velocity = new Vector2(_rb.velocity.x, maxFlyingSpeed);
+		else if (_rb.velocity.y < -maxFallingSpeed) _rb.velocity = new Vector2(_rb.velocity.x, -maxFallingSpeed);
 	}
 }
