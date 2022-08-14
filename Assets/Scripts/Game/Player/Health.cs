@@ -8,43 +8,35 @@ public class Health : NetworkBehaviour
 {
 	[SerializeField] private int maxHealth = 100;
 	[SerializeField] private PlayerCanvas playerCanvas;
-	private int currentHealth;
 
-	// Start is called before the first frame update
-	void Start()
+	private NetworkVariable<int> networkHealth = new(writePerm: NetworkVariableWritePermission.Owner);
+	private int localHealth;
+
+	public override void OnNetworkSpawn()
 	{
-		currentHealth = maxHealth;
-		playerCanvas.SetHealth(currentHealth, maxHealth);
+		networkHealth.OnValueChanged += OnHealthChange;
+		if (IsOwner) networkHealth.Value = maxHealth;
+		// if (!IsOwner) OnHealthChange(networkHealth.Value, networkHealth.Value); // for new clients
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
+		// move this code into the bullet later
 		if (!IsOwner) return;
 
 		if (col.tag == "Bullet" && col.gameObject.GetComponent<BulletMovement>().getSenderID() != gameObject.GetInstanceID())
 		{
-			UpdateHealthServerRpc(currentHealth - 5);
+			// don't harcode lol
+			networkHealth.Value -= 5;
 		}
 	}
 
-	[ServerRpc]
-	void UpdateHealthServerRpc(int newHealth)
+	void OnHealthChange(int prevHealth, int newHealth)
 	{
-		UpdateHealthClientRpc(newHealth);
-	}
+		localHealth = newHealth;
+		playerCanvas.SetHealth(localHealth, maxHealth);
 
-	[ClientRpc]
-	void UpdateHealthClientRpc(int newHealth)
-	{
-		UpdateHealth(newHealth);
-	}
-
-	void UpdateHealth(int newHealth)
-	{
-		currentHealth = newHealth;
-		playerCanvas.SetHealth(currentHealth, maxHealth);
-
-		if (currentHealth <= 0)
+		if (localHealth <= 0)
 		{
 			HandleDeath();
 		}
