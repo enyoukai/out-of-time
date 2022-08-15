@@ -2,30 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Unity.Netcode;
-using Unity.Netcode.Transports.UTP;
+using Photon.Pun;
 
 public class NetworkInitialization : MonoBehaviour
 {
+	// Start is called before the first frame update
 	void Start()
 	{
-		if (MultiplayerData.HOSTING)
-		{
-			NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(
-				MultiplayerData.IP_ADDRESS,
-				MultiplayerData.PORT,
-				"0.0.0.0"
-			);
-			NetworkManager.Singleton.StartHost();
-		}
-		else
-		{
-			NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(
-				MultiplayerData.IP_ADDRESS,
-				MultiplayerData.PORT
-			);
-			NetworkManager.Singleton.StartClient();
-		}
+		PhotonNetwork.Instantiate("PlayerManager", Vector3.zero, Quaternion.identity);
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
 
 	}
 }

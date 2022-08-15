@@ -547,11 +547,10 @@ GameObject:
   - component: {fileID: 8876543951821489906}
   - component: {fileID: 5135660084627185169}
   - component: {fileID: -1613842860124380881}
-  - component: {fileID: 8044237135466344659}
   - component: {fileID: 637648284581221992}
-  - component: {fileID: 2443236613688438480}
+  - component: {fileID: -6423950165020978726}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -737,19 +736,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   playerCanvas: {fileID: 291715152165276981}
---- !u!114 &8044237135466344659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8876543951821489908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b16eea5bc43493e4885bad20300ddbc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCanvas: {fileID: 291715152165276981}
 --- !u!114 &637648284581221992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,7 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dfe403c718687d42929b6c85e89c0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2443236613688438480
+--- !u!114 &-6423950165020978726
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -771,6 +757,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8876543951821489908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccff7df57e366a04e9f029070122544c, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
