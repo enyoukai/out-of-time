@@ -2,25 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Unity.Netcode;
-public class Shoot : NetworkBehaviour
+using Photon.Pun;
+
+public class PlayerShoot : MonoBehaviour
 {
 	[Header("Shooting Tweaks")]
 	[SerializeField] private float cooldown;
 
-	[SerializeField] private GameObject bulletPrefab;
+	private PhotonView _pv;
 
 	private float cooldownTimer = 0f;
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
-
+		_pv = GetComponent<PhotonView>();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (!IsOwner) return;
+		if (!_pv.IsMine) return;
+
 		cooldownTimer -= Time.deltaTime;
 
 		Vector2 playerToMouse = getPlayerToMouse();
@@ -29,23 +31,9 @@ public class Shoot : NetworkBehaviour
 		if (Input.GetMouseButton(0) && cooldownTimer <= 0)
 		{
 			ShootBullet(mouseAngle);
-			ShootServerRpc(mouseAngle);
 			cooldownTimer = cooldown;
 
 		}
-	}
-
-	[ServerRpc]
-	private void ShootServerRpc(float angle)
-	{
-		ShootClientRpc(angle);
-
-	}
-
-	[ClientRpc]
-	private void ShootClientRpc(float angle)
-	{
-		if (!IsOwner) ShootBullet(angle);
 	}
 
 	private void ShootBullet(float angle)
@@ -53,8 +41,8 @@ public class Shoot : NetworkBehaviour
 		float angleRadians = Mathf.Deg2Rad * angle;
 		Vector3 directionVector = new Vector3(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians), 0).normalized;
 
-		GameObject Bullet = Instantiate(bulletPrefab, transform.position + directionVector, Quaternion.Euler(0, 0, angle));
-		Bullet.GetComponent<BulletMovement>().setSenderID(gameObject.GetInstanceID());
+		GameObject bullet = PhotonNetwork.Instantiate("Bullet", transform.position + directionVector, Quaternion.Euler(0, 0, angle));
+		bullet.GetComponent<BulletMovement>().setSenderID(_pv.ViewID);
 	}
 
 	private float getMouseAngleDegrees(Vector2 playerToMouse)

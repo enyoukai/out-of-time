@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
+
 public class BulletMovement : MonoBehaviour
 {
 	[SerializeField] private float bulletSpeed;
@@ -29,10 +31,12 @@ public class BulletMovement : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if (col.tag != "Bullet" && col.gameObject.GetInstanceID() != senderID)
+		if ((col.tag == "Player" && col.gameObject.GetComponent<PhotonView>().ViewID == senderID) || col.tag == "Bullet")
 		{
-			Destroy(gameObject);
+			return;
 		}
+
+		Destroy(gameObject);
 	}
 
 	public void setSenderID(int ID)

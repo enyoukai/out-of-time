@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Unity.Netcode;
+using Photon.Pun;
 
-public class Movement : NetworkBehaviour
+public class PlayerMovement : MonoBehaviour
 {
 
 	[Header("Horizontal Movement")]
@@ -21,22 +21,25 @@ public class Movement : NetworkBehaviour
 	[SerializeField] private float gravity = 10f;
 
 	private Rigidbody2D _rb;
+	private PhotonView _pv;
 	private float horizontalInput;
 	private bool verticalInput;
 
-	public override void OnNetworkSpawn()
-	{
-		if (!IsOwner) Destroy(this);
-	}
+
 	private void Awake()
 	{
 		_rb = GetComponent<Rigidbody2D>();
+		_pv = GetComponent<PhotonView>();
 	}
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		if (IsOwner) Camera.main.GetComponent<CameraFollow>().setTarget(transform);
+		if (!_pv.IsMine)
+		{
+			Destroy(_rb);
+			Destroy(this);
+		}
 	}
 
 	// Update is called once per frame

@@ -546,12 +546,12 @@ GameObject:
   - component: {fileID: 8876543951821489905}
   - component: {fileID: 8876543951821489906}
   - component: {fileID: 5135660084627185169}
-  - component: {fileID: -1613842860124380881}
   - component: {fileID: 637648284581221992}
   - component: {fileID: -6423950165020978726}
+  - component: {fileID: -2583502747179331807}
   m_Layer: 0
   m_Name: PlayerController
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -705,7 +705,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0.2
-  bulletPrefab: {fileID: 2597670048454266346, guid: a6f2cccf20ad1d9409c274b8d058f2f7, type: 3}
 --- !u!114 &5135660084627185169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,20 +721,6 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &-1613842860124380881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8876543951821489908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6fcacb4b792875419f42bcba543c476, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  playerCanvas: {fileID: 291715152165276981}
 --- !u!114 &637648284581221992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -766,7 +751,24 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: -2583502747179331807}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &-2583502747179331807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8876543951821489908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
