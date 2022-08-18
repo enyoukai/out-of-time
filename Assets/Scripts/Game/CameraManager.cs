@@ -20,6 +20,7 @@ public class CameraManager : MonoBehaviour
 
 	public IEnumerator CameraShake(float duration, float magnitude)
 	{
+		Debug.Log("here");
 		Vector3 originalPos = transform.localPosition;
 		float elapsed = 0.0f;
 
@@ -41,6 +42,10 @@ public class CameraManager : MonoBehaviour
 		}
 
 		transform.localPosition = originalPos;
+	}
 
+	public void CameraShakeWrapper(float duration, float magnitude)
+	{
+		StartCoroutine(CameraShake(duration, magnitude));
 	}
 }

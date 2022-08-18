@@ -549,6 +549,7 @@ GameObject:
   - component: {fileID: -6423950165020978726}
   - component: {fileID: -2583502747179331807}
   - component: {fileID: 2829866599508038679}
+  - component: {fileID: 51912131174427855}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Player
@@ -771,3 +772,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCanvas: {fileID: 291715152165276981}
+--- !u!114 &51912131174427855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8876543951821489908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee5adca742e36347ada359bc9111764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nukePrefab: {fileID: 5825222388377630721, guid: 628cdb1d55131804a8b4e46472caa326, type: 3}

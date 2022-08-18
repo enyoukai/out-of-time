@@ -10,7 +10,6 @@ public class PlayerManager : MonoBehaviour
 {
 	public static PlayerManager Singleton;
 	[SerializeField] private TMP_Text respawnText;
-	private string respawnTextHeader = "RESPAWN IN ";
 	private PhotonView PV;
 	private int respawnTime = 5;
 
@@ -37,17 +36,16 @@ public class PlayerManager : MonoBehaviour
 
 	public IEnumerator RespawnCoroutine()
 	{
-		UIManager.Instance.ToggleDeathPanel();
+		CanvasManager.Instance.ToggleDeathPanel();
 
 		for (int i = respawnTime; i > 0; i--)
 		{
 			respawnText.text = i.ToString();
-			Debug.Log(i);
 			yield return new WaitForSecondsRealtime(1);
 		}
 
 		PhotonNetwork.Instantiate("PlayerController", Vector3.zero, Quaternion.identity);
-		UIManager.Instance.ToggleDeathPanel();
+		CanvasManager.Instance.ToggleDeathPanel();
 
 	}
 

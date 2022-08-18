@@ -8,6 +8,7 @@ public class BulletMovement : MonoBehaviour
 {
 	[SerializeField] private float bulletSpeed;
 	private int senderID;
+	private int damage = 5;
 	private Rigidbody2D _rb;
 
 	void Awake()
@@ -34,6 +35,11 @@ public class BulletMovement : MonoBehaviour
 		if ((col.tag == "Player" && col.gameObject.GetComponent<PhotonView>().Owner.ActorNumber == senderID) || col.tag == "Bullet")
 		{
 			return;
+		}
+
+		if (col.tag == "Player" && col.gameObject.GetComponent<PhotonView>().IsMine)
+		{
+			col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
 		}
 
 		Destroy(gameObject);

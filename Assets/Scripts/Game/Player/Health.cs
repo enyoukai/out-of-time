@@ -25,17 +25,6 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 
 	}
 
-	void OnTriggerEnter2D(Collider2D col)
-	{
-		// move this code into the bullet later
-		if (!_pv.IsMine) return;
-
-		if (col.tag == "Bullet" && col.gameObject.GetComponent<BulletMovement>().getSenderID() != _pv.Owner.ActorNumber)
-		{
-			ChangeHealth(-5);
-		}
-	}
-
 	public void ChangeHealth(int addedHealth)
 	{
 		if (dead) return;

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class CanvasManager : MonoBehaviour
 {
 	[SerializeField] private GameObject deathPanel;
-	private static UIManager _instance;
+	private static CanvasManager _instance;
 
-	public static UIManager Instance { get { return _instance; } }
+	public static CanvasManager Instance { get { return _instance; } }
 
 	private void Awake()
 	{
