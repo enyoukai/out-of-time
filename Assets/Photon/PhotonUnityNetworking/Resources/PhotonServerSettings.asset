@@ -40,6 +40,9 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - ShootRpc
+  - Teleport
+  - ChangeHealth
+  - ShootBullet
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

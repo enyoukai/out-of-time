@@ -31,7 +31,7 @@ public class BulletMovement : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
-		if ((col.tag == "Player" && col.gameObject.GetComponent<PhotonView>().ViewID == senderID) || col.tag == "Bullet")
+		if ((col.tag == "Player" && col.gameObject.GetComponent<PhotonView>().Owner.ActorNumber == senderID) || col.tag == "Bullet")
 		{
 			return;
 		}

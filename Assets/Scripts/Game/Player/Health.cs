@@ -1,50 +1,83 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-// using Photon.Pun;
+using Photon.Pun;
 
-// public class Health : MonoBehaviour
-// {
-// 	[SerializeField] private int maxHealth = 100;
-// 	[SerializeField] private PlayerCanvas playerCanvas;
+public class Health : MonoBehaviourPunCallbacks, IPunObservable
+{
+	[SerializeField] private PlayerCanvas playerCanvas;
+	private int maxHealth = 100;
+	private int currentHealth;
+	private PhotonView _pv;
 
-// 	private NetworkVariable<int> networkHealth = new(writePerm: NetworkVariableWritePermission.Owner);
-// 	private int localHealth;
+	private bool dead = false;
 
-// 	public override void OnNetworkSpawn()
-// 	{
-// 		networkHealth.OnValueChanged += OnHealthChange;
-// 		if (IsOwner) networkHealth.Value = maxHealth;
-// 		// if (!IsOwner) OnHealthChange(networkHealth.Value, networkHealth.Value); // for new clients
-// 	}
+	void Awake()
+	{
+		_pv = GetComponent<PhotonView>();
 
-// 	void OnTriggerEnter2D(Collider2D col)
-// 	{
-// 		// move this code into the bullet later
-// 		if (!IsOwner) return;
+		if (_pv.IsMine) currentHealth = maxHealth;
+	}
 
-// 		if (col.tag == "Bullet" && col.gameObject.GetComponent<BulletMovement>().getSenderID() != gameObject.GetInstanceID())
-// 		{
-// 			// don't harcode lol
-// 			networkHealth.Value -= 5;
-// 		}
-// 	}
+	void Start()
+	{
 
-// 	void OnHealthChange(int prevHealth, int newHealth)
-// 	{
-// 		localHealth = newHealth;
-// 		playerCanvas.SetHealth(localHealth, maxHealth);
+	}
 
-// 		if (localHealth <= 0)
-// 		{
-// 			HandleDeath();
-// 		}
-// 	}
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		// move this code into the bullet later
+		if (!_pv.IsMine) return;
 
-// 	void HandleDeath()
-// 	{
-// 		if (IsOwner) UIManager.Instance.ToggleDeathPanel();
-// 		Destroy(gameObject);
-// 	}
-// }
+		if (col.tag == "Bullet" && col.gameObject.GetComponent<BulletMovement>().getSenderID() != _pv.Owner.ActorNumber)
+		{
+			ChangeHealth(-5);
+		}
+	}
+
+	public void ChangeHealth(int addedHealth)
+	{
+		if (dead) return;
+
+		currentHealth += addedHealth;
+		if (currentHealth <= 0)
+		{
+			dead = true;
+			HandleDeath();
+		}
+	}
+
+	void Update()
+	{
+		playerCanvas.SetHealth(currentHealth, maxHealth);
+	}
+
+	void HandleDeath()
+	{
+
+		if (_pv.IsMine)
+		{
+			PlayerManager.Singleton.Respawn();
+
+			PhotonNetwork.Destroy(_pv);
+		}
+		else
+		{
+			gameObject.SetActive(false);
+		}
+	}
+
+	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+	{
+		if (stream.IsWriting)
+		{
+			stream.SendNext(currentHealth);
+		}
+		else
+		{
+			currentHealth = (int)stream.ReceiveNext();
+		}
+
+	}
+}
