@@ -36,7 +36,7 @@ public class PlayerManager : MonoBehaviour
 
 	public IEnumerator RespawnCoroutine()
 	{
-		CanvasManager.Instance.ToggleDeathPanel();
+		CanvasManager.Singleton.ToggleDeathPanel();
 
 		for (int i = respawnTime; i > 0; i--)
 		{
@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviour
 		}
 
 		PhotonNetwork.Instantiate("PlayerController", Vector3.zero, Quaternion.identity);
-		CanvasManager.Instance.ToggleDeathPanel();
+		CanvasManager.Singleton.ToggleDeathPanel();
 
 	}
 

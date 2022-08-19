@@ -18,10 +18,14 @@ public class PlayerTeleport : MonoBehaviour
 	private float aberrationDuration = 0.3f;
 	[SerializeField] AnimationCurve aberrationCurve;
 
+	private float cooldown = 5.0f;
+	private float cooldownTimeElapsed = 0f;
+
 	// Start is called before the first frame update
 	void Awake()
 	{
 		_pv = GetComponent<PhotonView>();
+		cooldownTimeElapsed = cooldown;
 	}
 
 	// Update is called once per frame
@@ -29,11 +33,16 @@ public class PlayerTeleport : MonoBehaviour
 	{
 		if (!_pv.IsMine) return;
 
-		if (Input.GetMouseButtonDown(1))
+		cooldownTimeElapsed += Time.deltaTime;
+
+		if (Input.GetMouseButtonDown(1) && cooldownTimeElapsed >= cooldown)
 		{
 			Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			_pv.RPC("Teleport", RpcTarget.All, pos.x, pos.y);
+			cooldownTimeElapsed = 0.0f;
 		}
+
+		CanvasManager.Singleton.SetSecondaryCooldown(cooldownTimeElapsed, cooldown);
 	}
 
 	[PunRPC]
