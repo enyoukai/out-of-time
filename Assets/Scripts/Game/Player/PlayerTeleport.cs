@@ -9,7 +9,10 @@ public class PlayerTeleport : MonoBehaviour
 	private PhotonView _pv;
 
 	private float shakeDuration = 0.5f;
-	private float shakeMagnitude = 1;
+	private float shakeMagnitude = 2;
+
+	private float aberrationDuration = 0.3f;
+	[SerializeField] AnimationCurve aberrationCurve;
 
 	// Start is called before the first frame update
 	void Awake()
@@ -26,13 +29,34 @@ public class PlayerTeleport : MonoBehaviour
 		{
 			Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			_pv.RPC("Teleport", RpcTarget.All, pos.x, pos.y);
-			StartCoroutine(CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude));
 		}
 	}
 
 	[PunRPC]
 	void Teleport(float x, float y)
 	{
+		PostProcessingManager.Singleton.ModifyChromaticAberration(1.0f);
 		transform.position = new Vector3(x, y, transform.position.z);
+
+		if (_pv.IsMine)
+		{
+			StartCoroutine(CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude));
+			StartCoroutine(TeleportEffect());
+		}
+	}
+
+	IEnumerator TeleportEffect()
+	{
+		float elapsedTime = 0.0f;
+
+		while (elapsedTime < aberrationDuration)
+		{
+			float intensity = aberrationCurve.Evaluate(elapsedTime / aberrationDuration);
+			PostProcessingManager.Singleton.ModifyChromaticAberration(intensity);
+
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+
 	}
 }

@@ -17,7 +17,7 @@ public class Nuke : MonoBehaviour
 	{
 		float xPos = transform.position.x;
 		nukeObject.SetActive(true);
-		nukeStartPos = new Vector3(xPos, yAboveScene, 0);
+		nukeStartPos = new Vector3(xPos, yAboveScene, nukeObject.transform.position.z);
 		nukeObject.transform.position = nukeStartPos;
 
 		StartCoroutine(NukeFalling(nukeStartPos, transform.position));
@@ -38,9 +38,6 @@ public class Nuke : MonoBehaviour
 		}
 
 		targetObject.GetComponent<TargetDamage>().DamageCheck();
-
-		Destroy(nukeObject);
-		Destroy(targetObject);
 
 		CameraManager.Singleton.CameraShakeWrapper(shakeDuration, shakeMagnitude);
 

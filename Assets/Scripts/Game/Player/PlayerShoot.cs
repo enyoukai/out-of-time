@@ -5,8 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 public class PlayerShoot : MonoBehaviour
 {
-	[Header("Shooting Tweaks")]
-	[SerializeField] private float cooldown;
+	private float cooldown = 0.3f;
 	[SerializeField] private GameObject bulletObject;
 
 	private PhotonView _pv;

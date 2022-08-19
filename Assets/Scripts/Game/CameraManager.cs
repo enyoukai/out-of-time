@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+	private Vector3 originalPos;
+
 	public static CameraManager Singleton;
 
 	[SerializeField] private AnimationCurve shakeDropoff;
@@ -18,10 +20,13 @@ public class CameraManager : MonoBehaviour
 		Singleton = this;
 	}
 
+	void Start()
+	{
+		originalPos = transform.localPosition;
+	}
+
 	public IEnumerator CameraShake(float duration, float magnitude)
 	{
-		Debug.Log("here");
-		Vector3 originalPos = transform.localPosition;
 		float elapsed = 0.0f;
 
 		while (elapsed < duration)
