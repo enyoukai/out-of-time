@@ -804,6 +804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCanvas: {fileID: 291715152165276981}
+  deadEffect: {fileID: 2898068161776235462, guid: 6e76e3feafec45e4da09d6dd19778a05, type: 3}
 --- !u!114 &51912131174427855
 MonoBehaviour:
   m_ObjectHideFlags: 0

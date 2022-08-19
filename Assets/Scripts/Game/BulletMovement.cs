@@ -7,6 +7,7 @@ using Photon.Pun;
 public class BulletMovement : MonoBehaviour
 {
 	[SerializeField] private float bulletSpeed;
+	[SerializeField] private ParticleSystem bulletEffect;
 	private int senderID;
 	private int damage = 5;
 	private Rigidbody2D _rb;
@@ -42,6 +43,7 @@ public class BulletMovement : MonoBehaviour
 			col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
 		}
 
+		Instantiate(bulletEffect, transform.position, Quaternion.identity);
 		Destroy(gameObject);
 	}
 

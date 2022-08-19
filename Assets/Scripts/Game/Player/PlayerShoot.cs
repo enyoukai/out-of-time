@@ -29,19 +29,19 @@ public class PlayerShoot : MonoBehaviour
 
 		if (Input.GetMouseButton(0) && cooldownTimer <= 0)
 		{
-			_pv.RPC(nameof(ShootBullet), RpcTarget.All, mouseAngle);
+			_pv.RPC(nameof(ShootBullet), RpcTarget.All, mouseAngle, transform.position.x, transform.position.y);
 			cooldownTimer = cooldown;
 
 		}
 	}
 
 	[PunRPC]
-	private void ShootBullet(float angle)
+	private void ShootBullet(float angle, float x, float y)
 	{
 		float angleRadians = Mathf.Deg2Rad * angle;
 		Vector3 directionVector = new Vector3(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians), 0).normalized;
 
-		GameObject bullet = Instantiate(bulletObject, transform.position + directionVector, Quaternion.Euler(0, 0, angle));
+		GameObject bullet = Instantiate(bulletObject, new Vector3(x, y, 0) + directionVector, Quaternion.Euler(0, 0, angle));
 		bullet.GetComponent<BulletMovement>().setSenderID(_pv.Owner.ActorNumber);
 	}
 

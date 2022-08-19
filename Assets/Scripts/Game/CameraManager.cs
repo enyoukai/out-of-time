@@ -9,7 +9,6 @@ public class CameraManager : MonoBehaviour
 	public static CameraManager Singleton;
 
 	[SerializeField] private AnimationCurve shakeDropoff;
-
 	void Awake()
 	{
 		if (Singleton)

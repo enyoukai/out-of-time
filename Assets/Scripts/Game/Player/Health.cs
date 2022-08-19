@@ -7,6 +7,7 @@ using Photon.Pun;
 public class Health : MonoBehaviourPunCallbacks, IPunObservable
 {
 	[SerializeField] private PlayerCanvas playerCanvas;
+	[SerializeField] private ParticleSystem deadEffect;
 	private int maxHealth = 100;
 	private int currentHealth;
 	private PhotonView _pv;
@@ -44,6 +45,7 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 
 	void HandleDeath()
 	{
+		Instantiate(deadEffect, transform.position, Quaternion.identity);
 
 		if (_pv.IsMine)
 		{
