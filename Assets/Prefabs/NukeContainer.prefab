@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1699002612943283798}
   - component: {fileID: 6680172029179093446}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Nuke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5825222388377630723}
   - component: {fileID: 2616482314116344685}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: NukeContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 8203409072842598318}
   - component: {fileID: 151946879063787318}
   - component: {fileID: 3385433919089623934}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}

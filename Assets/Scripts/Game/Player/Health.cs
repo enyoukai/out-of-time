@@ -28,14 +28,20 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 
 	public void ChangeHealth(int addedHealth)
 	{
-		if (dead) return;
+		if (dead || !_pv.IsMine) return;
 
 		currentHealth += addedHealth;
 		if (currentHealth <= 0)
 		{
 			dead = true;
-			HandleDeath();
+			_pv.RPC(nameof(HandleDeath), RpcTarget.All);
 		}
+	}
+
+	[PunRPC]
+	void Damaged()
+	{
+
 	}
 
 	void Update()
@@ -43,6 +49,7 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 		playerCanvas.SetHealth(currentHealth, maxHealth);
 	}
 
+	[PunRPC]
 	void HandleDeath()
 	{
 		Instantiate(deadEffect, transform.position, Quaternion.identity);

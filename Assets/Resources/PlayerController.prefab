@@ -718,6 +718,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dfe403c718687d42929b6c85e89c0a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teleportEffect: {fileID: 2898068161776235462, guid: 44c32aa6560450c4994f47431486cf70, type: 3}
+  teleportStartColor: {r: 0.9716981, g: 0.5057476, b: 0.01375042, a: 1}
+  teleportEndColor: {r: 0.100302614, g: 0.7575551, b: 0.9245283, a: 1}
   aberrationCurve:
     serializedVersion: 2
     m_Curve:

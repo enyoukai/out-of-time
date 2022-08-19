@@ -6,6 +6,10 @@ using Photon.Pun;
 
 public class PlayerTeleport : MonoBehaviour
 {
+	[SerializeField] private ParticleSystem teleportEffect;
+	[SerializeField] private Color teleportStartColor;
+	[SerializeField] private Color teleportEndColor;
+
 	private PhotonView _pv;
 
 	private float shakeDuration = 0.5f;
@@ -35,18 +39,29 @@ public class PlayerTeleport : MonoBehaviour
 	[PunRPC]
 	void Teleport(float x, float y)
 	{
-		PostProcessingManager.Singleton.ModifyChromaticAberration(1.0f);
+		// TODO: move effect code somewhere else later
+		var teleportEffectMain = teleportEffect.main;
+
+		teleportEffectMain.startColor = teleportStartColor;
+
+		Instantiate(teleportEffect, transform.position, Quaternion.identity);
+
 		transform.position = new Vector3(x, y, transform.position.z);
+
+		teleportEffectMain.startColor = teleportEndColor;
+
+		Instantiate(teleportEffect, transform.position, Quaternion.identity);
 
 		if (_pv.IsMine)
 		{
-			StartCoroutine(CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude));
 			StartCoroutine(TeleportEffect());
 		}
 	}
 
 	IEnumerator TeleportEffect()
 	{
+		StartCoroutine(CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude));
+
 		float elapsedTime = 0.0f;
 
 		while (elapsedTime < aberrationDuration)
