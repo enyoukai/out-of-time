@@ -7,6 +7,7 @@ public class Nuke : MonoBehaviour
 {
 	[SerializeField] GameObject nukeObject;
 	[SerializeField] GameObject targetObject;
+	[SerializeField] ParticleSystem burstEffect;
 
 	private int sender;
 
@@ -49,7 +50,7 @@ public class Nuke : MonoBehaviour
 
 		targetObject.GetComponent<TargetHitbox>().ApplyDamage(damage, sender);
 
-
+		Instantiate(burstEffect, targetObject.transform.position, Quaternion.identity);
 		CameraManager.Singleton.CameraShakeWrapper(shakeDuration, shakeMagnitude);
 
 		Destroy(gameObject);

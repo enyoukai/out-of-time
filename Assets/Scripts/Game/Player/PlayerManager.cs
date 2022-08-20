@@ -63,8 +63,6 @@ public class PlayerManager : MonoBehaviour
 
 	public void IncrementDeaths(int killedBy)
 	{
-		Debug.Log(PhotonNetwork.CurrentRoom.GetPlayer(killedBy).NickName);
-
 		PV.RPC(nameof(IncrementKills), PhotonNetwork.CurrentRoom.GetPlayer(killedBy), PV.Owner.ActorNumber);
 
 		int deaths = (int)CustomProperties.GetProperty("Deaths", PhotonNetwork.LocalPlayer);

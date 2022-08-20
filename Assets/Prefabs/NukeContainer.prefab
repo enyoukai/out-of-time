@@ -132,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nukeObject: {fileID: 4141948139651332231}
   targetObject: {fileID: 8290998079652692358}
+  burstEffect: {fileID: 4343781186294378715, guid: b5dc03497e83f274293395beac8362c4, type: 3}
 --- !u!1 &8290998079652692358
 GameObject:
   m_ObjectHideFlags: 0
