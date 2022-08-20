@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using TMPro;
+
 public class CanvasManager : MonoBehaviour
 {
 	[SerializeField] private GameObject deathPanel;
 	[SerializeField] private Slider secondaryCooldown;
 	[SerializeField] private Slider ultimateCooldown;
+	[SerializeField] private TMP_Text respawnText;
 
 	private static CanvasManager _instance;
 
@@ -43,6 +46,12 @@ public class CanvasManager : MonoBehaviour
 		value = Mathf.Clamp(value, 0, maxValue);
 		ultimateCooldown.value = value;
 		ultimateCooldown.maxValue = maxValue;
+	}
+
+	public void SetRespawnText(string text)
+	{
+		respawnText.text = text;
+
 	}
 
 

@@ -64,10 +64,4 @@ public class GameLoader : MonoBehaviourPunCallbacks
 		MenuManager.Singleton.ToggleMainMenu(true);
 		MenuManager.Singleton.ToggleLoadingMenu(false);
 	}
-
-	void Update()
-	{
-		Debug.Log(PhotonNetwork.GetPing());
-	}
-
 }

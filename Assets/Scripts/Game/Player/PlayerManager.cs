@@ -4,34 +4,36 @@ using UnityEngine;
 
 using Photon.Pun;
 using TMPro;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 // yoinked from rugbug
 public class PlayerManager : MonoBehaviour
 {
-	public static PlayerManager Singleton;
-	[SerializeField] private TMP_Text respawnText;
 	private PhotonView PV;
 	private int respawnTime = 5;
 
-	// Start is called before the first frame update
 	void Awake()
 	{
-		if (Singleton)
-		{
-			Destroy(gameObject);
-			return;
-		}
-		Singleton = this;
+		PV = GetComponent<PhotonView>();
 	}
 
 	void Start()
 	{
-		CreateController();
+		if (PV.IsMine)
+		{
+			Hashtable deathTable = new Hashtable();
+			deathTable.Add("Deaths", 0);
+
+			PhotonNetwork.LocalPlayer.SetCustomProperties(deathTable);
+
+			CreateController();
+		}
 	}
 
 	void CreateController()
 	{
-		PhotonNetwork.Instantiate("PlayerController", Vector3.zero, Quaternion.identity);
+		GameObject player = PhotonNetwork.Instantiate("PlayerController", Vector3.zero, Quaternion.identity);
+		player.GetComponent<PlayerManagerWrapper>().playerManager = this;
 	}
 
 	public IEnumerator RespawnCoroutine()
@@ -40,11 +42,11 @@ public class PlayerManager : MonoBehaviour
 
 		for (int i = respawnTime; i > 0; i--)
 		{
-			respawnText.text = i.ToString();
+			CanvasManager.Singleton.SetRespawnText(i.ToString());
 			yield return new WaitForSecondsRealtime(1);
 		}
 
-		PhotonNetwork.Instantiate("PlayerController", Vector3.zero, Quaternion.identity);
+		CreateController();
 		CanvasManager.Singleton.ToggleDeathPanel();
 
 	}
@@ -52,6 +54,16 @@ public class PlayerManager : MonoBehaviour
 	public void Respawn()
 	{
 		StartCoroutine(RespawnCoroutine());
+	}
+
+	public void IncrementDeaths()
+	{
+		int deaths = (int)PhotonNetwork.LocalPlayer.CustomProperties["Deaths"];
+		deaths++;
+		Hashtable deathTable = new Hashtable();
+		deathTable.Add("Deaths", deaths);
+
+		PhotonNetwork.LocalPlayer.SetCustomProperties(deathTable);
 	}
 
 }

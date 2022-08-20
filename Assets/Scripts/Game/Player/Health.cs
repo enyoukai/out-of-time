@@ -56,7 +56,8 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 
 		if (_pv.IsMine)
 		{
-			PlayerManager.Singleton.Respawn();
+			GetComponent<PlayerManagerWrapper>().playerManager.IncrementDeaths();
+			GetComponent<PlayerManagerWrapper>().playerManager.Respawn();
 
 			PhotonNetwork.Destroy(_pv);
 		}
