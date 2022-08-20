@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Photon.Pun;
 using TMPro;
 
 public class PlayerCanvas : MonoBehaviour
 {
 	[SerializeField] private Slider healthBar;
 	[SerializeField] private TMP_Text usernameTMP;
-	// Start is called before the first frame update
+	[SerializeField] private PhotonView PV;
 	public void SetHealth(float health, float maxHealth)
 	{
 		healthBar.maxValue = maxHealth;
 		healthBar.value = health;
 	}
 
-	public void SetUsername(string username)
+	void Start()
 	{
-		usernameTMP.text = username;
+		usernameTMP.text = PV.Owner.NickName;
+
 	}
 }

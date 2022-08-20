@@ -10,6 +10,7 @@ public class GameLoader : MonoBehaviourPunCallbacks
 {
 	[SerializeField] private TMP_InputField hostRoomName;
 	[SerializeField] private TMP_InputField joinRoomName;
+	[SerializeField] private TMP_InputField username;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -43,6 +44,7 @@ public class GameLoader : MonoBehaviourPunCallbacks
 	}
 	public override void OnJoinedRoom()
 	{
+		PhotonNetwork.NickName = username.text;
 		PhotonNetwork.LoadLevel("Game");
 		Debug.Log(PhotonNetwork.CurrentRoom.Name);
 	}
@@ -63,5 +65,9 @@ public class GameLoader : MonoBehaviourPunCallbacks
 		MenuManager.Singleton.ToggleLoadingMenu(false);
 	}
 
+	void Update()
+	{
+		Debug.Log(PhotonNetwork.GetPing());
+	}
 
 }

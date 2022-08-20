@@ -18,7 +18,7 @@ public class PlayerTeleport : MonoBehaviour
 	private float aberrationDuration = 0.3f;
 	[SerializeField] AnimationCurve aberrationCurve;
 
-	private float cooldown = 5.0f;
+	private float cooldown = 3.0f;
 	private float cooldownTimeElapsed = 0f;
 
 	// Start is called before the first frame update
