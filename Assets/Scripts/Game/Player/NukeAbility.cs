@@ -38,6 +38,7 @@ public class NukeAbility : MonoBehaviour
 	[PunRPC]
 	void LaunchNuke(float x, float y)
 	{
-		Instantiate(nukePrefab, new Vector3(x, y, 0), Quaternion.identity);
+		GameObject nuke = Instantiate(nukePrefab, new Vector3(x, y, 0), Quaternion.identity);
+		nuke.GetComponent<Nuke>().Initialize(PV.Owner.ActorNumber);
 	}
 }

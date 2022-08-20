@@ -26,20 +26,22 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 
 	}
 
-	public void ChangeHealth(int addedHealth)
+	public void ChangeHealth(int addedHealth, int damagedBy)
 	{
 		if (dead || !_pv.IsMine) return;
+
+		_pv.RPC(nameof(onDamage), RpcTarget.All);
 
 		currentHealth += addedHealth;
 		if (currentHealth <= 0)
 		{
 			dead = true;
-			_pv.RPC(nameof(HandleDeath), RpcTarget.All);
+			_pv.RPC(nameof(onDead), RpcTarget.All, damagedBy);
 		}
 	}
 
 	[PunRPC]
-	void Damaged()
+	void onDamage()
 	{
 
 	}
@@ -50,13 +52,13 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 	}
 
 	[PunRPC]
-	void HandleDeath()
+	void onDead(int killedBy)
 	{
 		Instantiate(deadEffect, transform.position, Quaternion.identity);
 
 		if (_pv.IsMine)
 		{
-			GetComponent<PlayerManagerWrapper>().playerManager.IncrementDeaths();
+			GetComponent<PlayerManagerWrapper>().playerManager.IncrementDeaths(killedBy);
 			GetComponent<PlayerManagerWrapper>().playerManager.Respawn();
 
 			PhotonNetwork.Destroy(_pv);

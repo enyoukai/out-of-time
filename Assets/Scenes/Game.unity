@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 354797568}
   - component: {fileID: 354797569}
   - component: {fileID: 354797570}
+  - component: {fileID: 354797571}
   m_Layer: 0
   m_Name: NetworkInit
   m_TagString: Untagged
@@ -725,6 +726,18 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &354797571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354797567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2ebb4a828fc0c4594d8fa57c2295d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &377216286
 GameObject:
   m_ObjectHideFlags: 0

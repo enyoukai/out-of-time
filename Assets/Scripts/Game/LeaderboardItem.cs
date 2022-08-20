@@ -6,8 +6,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 
-using Hashtable = ExitGames.Client.Photon.Hashtable;
-public class LeaderboardItem : MonoBehaviourPunCallbacks
+public class LeaderboardItem : MonoBehaviour
 {
 	[SerializeField] private TMP_Text username;
 	[SerializeField] private TMP_Text kills;
@@ -21,19 +20,18 @@ public class LeaderboardItem : MonoBehaviourPunCallbacks
 		Render();
 	}
 
-	public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-	{
-		if (this.targetPlayer != targetPlayer) return;
-		Render();
-	}
-
 	void Render()
 	{
 		username.text = targetPlayer.NickName;
 		if (targetPlayer.CustomProperties.ContainsKey("Deaths"))
 		{
 			// yeah
-			deaths.text = ((int)targetPlayer.CustomProperties["Deaths"]).ToString();
+			deaths.text = ((int)CustomProperties.GetProperty("Deaths", targetPlayer)).ToString();
+		}
+
+		if (targetPlayer.CustomProperties.ContainsKey("Kills"))
+		{
+			kills.text = ((int)CustomProperties.GetProperty("Kills", targetPlayer)).ToString();
 		}
 	}
 }

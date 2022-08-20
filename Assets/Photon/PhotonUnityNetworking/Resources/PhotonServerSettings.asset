@@ -46,6 +46,9 @@ MonoBehaviour:
   - LaunchNuke
   - Damaged
   - HandleDeath
+  - onDamage
+  - onDead
+  - IncrementKills
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

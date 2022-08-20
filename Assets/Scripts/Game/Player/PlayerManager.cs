@@ -54,21 +54,35 @@ public class PlayerManager : MonoBehaviour
 
 	void InitProperties()
 	{
-		Hashtable hash = new Hashtable();
-		hash.Add("Deaths", 0);
-		hash.Add("Kills", 0);
+		Hashtable initTable = new Hashtable();
+		initTable.Add("Kills", 0);
+		initTable.Add("Deaths", 0);
 
-		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+		CustomProperties.SetProperty(initTable, PhotonNetwork.LocalPlayer);
 	}
 
-	public void IncrementDeaths()
+	public void IncrementDeaths(int killedBy)
 	{
-		int deaths = (int)PhotonNetwork.LocalPlayer.CustomProperties["Deaths"];
-		deaths++;
-		Hashtable deathTable = new Hashtable();
-		deathTable.Add("Deaths", deaths);
+		Debug.Log(PhotonNetwork.CurrentRoom.GetPlayer(killedBy).NickName);
 
-		PhotonNetwork.LocalPlayer.SetCustomProperties(deathTable);
+		PV.RPC(nameof(IncrementKills), PhotonNetwork.CurrentRoom.GetPlayer(killedBy), PV.Owner.ActorNumber);
+
+		int deaths = (int)CustomProperties.GetProperty("Deaths", PhotonNetwork.LocalPlayer);
+		deaths++;
+
+		CustomProperties.SetProperty("Deaths", deaths, PhotonNetwork.LocalPlayer);
+	}
+
+	// runs on original playermanager object
+	[PunRPC]
+	public void IncrementKills(int killed)
+	{
+		if (killed == PhotonNetwork.LocalPlayer.ActorNumber) return;
+
+		int kills = (int)CustomProperties.GetProperty("Kills", PhotonNetwork.LocalPlayer);
+		kills++;
+
+		CustomProperties.SetProperty("Kills", kills, PhotonNetwork.LocalPlayer);
 	}
 
 }

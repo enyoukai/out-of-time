@@ -4,11 +4,10 @@ using UnityEngine;
 
 using Photon.Pun;
 
-public class TargetDamage : MonoBehaviour
+public class TargetHitbox : MonoBehaviour
 {
 	private bool isIn = false;
 	private GameObject client;
-	private int damage = 999;
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
@@ -29,11 +28,11 @@ public class TargetDamage : MonoBehaviour
 		}
 	}
 
-	public void DamageCheck()
+	public void ApplyDamage(int damage, int sender)
 	{
 		if (isIn)
 		{
-			client.GetComponent<Health>().ChangeHealth(-damage);
+			client.GetComponent<Health>().ChangeHealth(-damage, sender);
 		}
 	}
 }

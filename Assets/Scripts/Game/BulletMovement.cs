@@ -40,7 +40,7 @@ public class BulletMovement : MonoBehaviour
 
 		if (col.tag == "Player" && col.gameObject.GetComponent<PhotonView>().IsMine)
 		{
-			col.gameObject.GetComponent<Health>().ChangeHealth(-damage);
+			col.gameObject.GetComponent<Health>().ChangeHealth(-damage, senderID);
 		}
 
 		Instantiate(bulletEffect, transform.position, Quaternion.identity);

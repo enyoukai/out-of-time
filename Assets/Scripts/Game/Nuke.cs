@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: projectile inherit?
 public class Nuke : MonoBehaviour
 {
 	[SerializeField] GameObject nukeObject;
 	[SerializeField] GameObject targetObject;
+
+	private int sender;
+
+	private int damage = 999;
+
 	private float yAboveScene = 60.0f;
 	private float warningTime = 0.5f;
 	private float fallingTime = 2f;
@@ -20,11 +26,15 @@ public class Nuke : MonoBehaviour
 		nukeStartPos = new Vector3(xPos, yAboveScene, nukeObject.transform.position.z);
 		nukeObject.transform.position = nukeStartPos;
 
-		StartCoroutine(NukeFalling(nukeStartPos, transform.position));
+		StartCoroutine(LaunchNuke(nukeStartPos, transform.position));
 	}
 
+	public void Initialize(int sender)
+	{
+		this.sender = sender;
+	}
 
-	IEnumerator NukeFalling(Vector3 startPos, Vector3 targetPos)
+	IEnumerator LaunchNuke(Vector3 startPos, Vector3 targetPos)
 	{
 		yield return new WaitForSeconds(warningTime);
 
@@ -37,7 +47,8 @@ public class Nuke : MonoBehaviour
 			yield return null;
 		}
 
-		targetObject.GetComponent<TargetDamage>().DamageCheck();
+		targetObject.GetComponent<TargetHitbox>().ApplyDamage(damage, sender);
+
 
 		CameraManager.Singleton.CameraShakeWrapper(shakeDuration, shakeMagnitude);
 
