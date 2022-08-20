@@ -21,11 +21,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		if (PV.IsMine)
 		{
-			Hashtable deathTable = new Hashtable();
-			deathTable.Add("Deaths", 0);
-
-			PhotonNetwork.LocalPlayer.SetCustomProperties(deathTable);
-
+			InitProperties();
 			CreateController();
 		}
 	}
@@ -54,6 +50,15 @@ public class PlayerManager : MonoBehaviour
 	public void Respawn()
 	{
 		StartCoroutine(RespawnCoroutine());
+	}
+
+	void InitProperties()
+	{
+		Hashtable hash = new Hashtable();
+		hash.Add("Deaths", 0);
+		hash.Add("Kills", 0);
+
+		PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
 	}
 
 	public void IncrementDeaths()

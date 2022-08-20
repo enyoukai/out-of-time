@@ -9,10 +9,30 @@ public class Leaderboard : MonoBehaviourPunCallbacks
 	[SerializeField] private GameObject leaderboardItemPrefab;
 	[SerializeField] private Transform leaderboardContainer;
 	private Player[] playerList;
-	// Start is called before the first frame update
+	private CanvasGroup canvasGroup;
+	private string renderKey = "tab";
+
+	void Awake()
+	{
+		canvasGroup = GetComponent<CanvasGroup>();
+	}
+
 	void Start()
 	{
 		RenderLeaderboard();
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(renderKey))
+		{
+			canvasGroup.alpha = 1f;
+		}
+		else if (Input.GetKeyUp(renderKey))
+		{
+			canvasGroup.alpha = 0f;
+		}
+
 	}
 
 	public override void OnPlayerEnteredRoom(Player player)
