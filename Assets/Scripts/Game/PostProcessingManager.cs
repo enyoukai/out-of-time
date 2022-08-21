@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
-using UnityEngine.Rendering.PostProcessing;
 
 public class PostProcessingManager : MonoBehaviour
 {
-	[SerializeField] private PostProcessVolume volume;
+	private Volume volume;
+	private Bloom bloom;
+	private ChromaticAberration chromAb;
 	public static PostProcessingManager Singleton;
 
 	void Awake()
@@ -17,13 +20,15 @@ public class PostProcessingManager : MonoBehaviour
 			return;
 		}
 		Singleton = this;
+
+		volume = GetComponent<Volume>();
+		volume.profile.TryGet(out bloom);
+		volume.profile.TryGet(out chromAb);
+
 	}
 
-	// Update is called once per frame
 	public void ModifyChromaticAberration(float intensity)
 	{
-		ChromaticAberration chromAb;
-		volume.profile.TryGetSettings(out chromAb);
 		chromAb.intensity.value = intensity;
 	}
 }
