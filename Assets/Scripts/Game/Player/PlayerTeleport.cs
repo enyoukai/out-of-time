@@ -16,6 +16,7 @@ public class PlayerTeleport : MonoBehaviour
 	private float shakeMagnitude = 2;
 
 	private float aberrationDuration = 0.3f;
+	private float dissolveDuration = 1f;
 	[SerializeField] AnimationCurve aberrationCurve;
 
 	private float cooldown = 3.0f;
@@ -63,11 +64,12 @@ public class PlayerTeleport : MonoBehaviour
 
 		if (_pv.IsMine)
 		{
-			StartCoroutine(TeleportEffect());
+			StartCoroutine(CameraEffect());
 		}
+		StartCoroutine(DissolveEffect());
 	}
 
-	IEnumerator TeleportEffect()
+	IEnumerator CameraEffect()
 	{
 		StartCoroutine(CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude));
 
@@ -81,6 +83,18 @@ public class PlayerTeleport : MonoBehaviour
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
+	}
+	IEnumerator DissolveEffect()
+	{
+		Material dissolve = GetComponent<SpriteRenderer>().material;
+		float elapsedTime = 0.0f;
 
+		while (elapsedTime < dissolveDuration)
+		{
+			dissolve.SetFloat("_Fade", elapsedTime / dissolveDuration);
+
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
 	}
 }
