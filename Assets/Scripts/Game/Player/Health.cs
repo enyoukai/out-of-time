@@ -4,6 +4,8 @@ using UnityEngine;
 
 using Photon.Pun;
 
+
+// TODO: MAKE THESE ALL PROPERTIES LATER
 public class Health : MonoBehaviourPunCallbacks, IPunObservable
 {
 	[SerializeField] private PlayerCanvas playerCanvas;

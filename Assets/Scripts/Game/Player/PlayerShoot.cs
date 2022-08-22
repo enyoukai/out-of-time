@@ -6,6 +6,7 @@ using Photon.Pun;
 public class PlayerShoot : MonoBehaviour
 {
 	private float cooldown = 0.3f;
+	private float radius = 8;
 	[SerializeField] private GameObject bulletObject;
 
 	private PhotonView _pv;
@@ -24,8 +25,8 @@ public class PlayerShoot : MonoBehaviour
 
 		cooldownTimer -= Time.deltaTime;
 
-		Vector2 playerToMouse = getPlayerToMouse();
-		float mouseAngle = getMouseAngleDegrees(playerToMouse);
+		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		float mouseAngle = VectorUtilities.AngleBetweenVectors(mousePos, transform.position);
 
 		if (Input.GetMouseButton(0) && cooldownTimer <= 0)
 		{
@@ -42,19 +43,7 @@ public class PlayerShoot : MonoBehaviour
 		Vector3 directionVector = new Vector3(Mathf.Cos(angleRadians), Mathf.Sin(angleRadians), 0).normalized;
 
 		GameObject bullet = Instantiate(bulletObject, new Vector3(x, y, 0) + directionVector, Quaternion.Euler(0, 0, angle));
+		VectorUtilities.RotateWithRadius(transform, bullet.transform, angle, radius);
 		bullet.GetComponent<BulletMovement>().setSenderID(_pv.Owner.ActorNumber);
-	}
-
-	private float getMouseAngleDegrees(Vector2 playerToMouse)
-	{
-		return Mathf.Rad2Deg * Mathf.Atan2(playerToMouse.y, playerToMouse.x);
-	}
-
-	private Vector2 getPlayerToMouse()
-	{
-		Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		Vector2 playerToMouse = (Vector2)(mousePos - transform.position);
-
-		return playerToMouse;
 	}
 }

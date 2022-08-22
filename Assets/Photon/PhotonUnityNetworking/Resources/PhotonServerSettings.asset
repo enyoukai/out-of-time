@@ -49,6 +49,7 @@ MonoBehaviour:
   - onDamage
   - onDead
   - IncrementKills
+  - ActivateRay
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
