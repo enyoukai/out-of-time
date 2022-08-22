@@ -15,9 +15,7 @@ public class TargetHitbox : MonoBehaviour
 		{
 			isIn = true;
 			client = col.gameObject;
-
 		}
-
 	}
 
 	void OnTriggerExit2D(Collider2D col)
@@ -32,7 +30,7 @@ public class TargetHitbox : MonoBehaviour
 	{
 		if (isIn)
 		{
-			client.GetComponent<Health>().ChangeHealth(-damage, sender);
+			client.GetComponent<Health>().TakeDamage(damage, sender);
 		}
 	}
 }

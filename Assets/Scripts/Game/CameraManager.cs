@@ -24,7 +24,7 @@ public class CameraManager : MonoBehaviour
 		originalPos = transform.localPosition;
 	}
 
-	public IEnumerator CameraShake(float duration, float magnitude)
+	public IEnumerator CameraShakeCoroutine(float duration, float magnitude, bool ease = true)
 	{
 		float elapsed = 0.0f;
 
@@ -32,7 +32,12 @@ public class CameraManager : MonoBehaviour
 		{
 			elapsed += Time.deltaTime;
 
-			float curveMultiplier = shakeDropoff.Evaluate(elapsed / duration);
+			float curveMultiplier = 1.0f;
+
+			if (ease)
+			{
+				curveMultiplier = shakeDropoff.Evaluate(elapsed / duration);
+			}
 
 			float xShake = Random.Range(-curveMultiplier, curveMultiplier) * magnitude;
 			float yShake = Random.Range(-curveMultiplier, curveMultiplier) * magnitude;
@@ -48,8 +53,8 @@ public class CameraManager : MonoBehaviour
 		transform.localPosition = originalPos;
 	}
 
-	public void CameraShakeWrapper(float duration, float magnitude)
+	public void CameraShake(float duration, float magnitude, bool ease = true)
 	{
-		StartCoroutine(CameraShake(duration, magnitude));
+		StartCoroutine(CameraShakeCoroutine(duration, magnitude, ease));
 	}
 }

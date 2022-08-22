@@ -51,7 +51,7 @@ public class Nuke : MonoBehaviour
 		targetObject.GetComponent<TargetHitbox>().ApplyDamage(damage, sender);
 
 		Instantiate(burstEffect, targetObject.transform.position, Quaternion.identity);
-		CameraManager.Singleton.CameraShakeWrapper(shakeDuration, shakeMagnitude);
+		CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude);
 
 		Destroy(gameObject);
 	}

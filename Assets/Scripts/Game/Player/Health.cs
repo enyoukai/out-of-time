@@ -14,10 +14,14 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 	private int currentHealth;
 	private PhotonView _pv;
 
+	private float iFrame = 1.0f / 20.0f;
+	private float iFrameClock;
+
 	private bool dead = false;
 
 	void Awake()
 	{
+		iFrameClock = iFrame;
 		_pv = GetComponent<PhotonView>();
 
 		if (_pv.IsMine) currentHealth = maxHealth;
@@ -28,18 +32,22 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 
 	}
 
-	public void ChangeHealth(int addedHealth, int damagedBy)
+	public void TakeDamage(int damage, int damagedBy)
 	{
-		if (dead || !_pv.IsMine) return;
+		if (dead || !_pv.IsMine || iFrameClock < iFrame) return;
 
 		_pv.RPC(nameof(onDamage), RpcTarget.All);
 
-		currentHealth += addedHealth;
+		currentHealth -= damage;
+
 		if (currentHealth <= 0)
 		{
 			dead = true;
 			_pv.RPC(nameof(onDead), RpcTarget.All, damagedBy);
 		}
+
+		iFrameClock = 0f;
+
 	}
 
 	[PunRPC]
@@ -51,6 +59,7 @@ public class Health : MonoBehaviourPunCallbacks, IPunObservable
 	void Update()
 	{
 		playerCanvas.SetHealth(currentHealth, maxHealth);
+		iFrameClock += Time.deltaTime;
 	}
 
 	[PunRPC]

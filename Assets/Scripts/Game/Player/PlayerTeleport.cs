@@ -71,7 +71,7 @@ public class PlayerTeleport : MonoBehaviour
 
 	IEnumerator CameraEffect()
 	{
-		StartCoroutine(CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude));
+		CameraManager.Singleton.CameraShake(shakeDuration, shakeMagnitude);
 
 		float elapsedTime = 0.0f;
 
