@@ -10,12 +10,12 @@ public class DeathRay : MonoBehaviour
 	private LineRenderer LR;
 	private LayerMask ignoreMask;
 	private int damage = 5;
-	private int width = 5;
+	private int width = 1;
 	private float warningTime = 1.0f;
 	private RaycastHit2D hit;
 
 	private float rayLifetime = 5.0f;
-	private float shakeMagnitude = 3.0f;
+	private float shakeMagnitude = 1.0f;
 
 	void Awake()
 	{
@@ -32,9 +32,9 @@ public class DeathRay : MonoBehaviour
 
 	void FixedUpdate()
 	{
-
-		hit = Physics2D.BoxCast(transform.position, new Vector2(width, 0.01f), Vector2.Angle(Vector2.zero, transform.right), transform.right, Mathf.Infinity, ~ignoreMask);
-		// RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, Mathf.Infinity, ~ignoreMask);
+		float boxCastAngle = Mathf.Rad2Deg * Mathf.Atan2(transform.right.y, transform.right.x);
+		// hit = CastUtilities.BoxCast(transform.position, new Vector2(0.01f, width), boxCastAngle, transform.right, 5000.0f, ~ignoreMask);
+		hit = Physics2D.Raycast(transform.position, transform.right, Mathf.Infinity, ~ignoreMask);
 	}
 
 	private IEnumerator EnableRay()
@@ -70,4 +70,5 @@ public class DeathRay : MonoBehaviour
 	{
 		rayDestroyEvent.Invoke();
 	}
+
 }
